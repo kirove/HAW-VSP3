@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.Socket;
 
-public class Stub implements MethodCaller {
+/**
+ * establish the server connection
+ */
+public class Stub implements ICallMethodDefiner {
 	private final Connection connection;
 
 	public Stub(final String host, final int port) throws IOException {
@@ -18,7 +21,14 @@ public class Stub implements MethodCaller {
 		return callMethod(methodName, parametersObject);
 	}
 	*/
-	
+
+    /**
+     * sends and receives serialized Messages to/from Server
+     * all technical Exceptions are warped directly into Runtime Exception
+     * @param methodName: defines the name of the communication protocol
+     * @param parametersObject
+     * @return: the Answer to the Call oder sowas
+     */
 	public synchronized final Serializable callMethod(final String methodName, final Serializable parametersObject) {
 		final MethodCallMessage message = new MethodCallMessage(methodName, parametersObject);
 		

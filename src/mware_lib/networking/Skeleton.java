@@ -7,10 +7,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Skeleton extends Thread {
-	private final MethodCaller caller;
+	private final ICallMethodDefiner caller;
 	private final ServerSocket serverSocket;
 
-	public Skeleton(final int listenPort, final MethodCaller caller, final boolean isDaemon)
+	public Skeleton(final int listenPort, final ICallMethodDefiner caller, final boolean isDaemon)
 			throws IOException {
 		this.caller = caller;
 		this.serverSocket = new ServerSocket(listenPort);

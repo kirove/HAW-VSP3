@@ -1,16 +1,24 @@
 package mware_lib.name_server;
 
 import mware_lib.Servant;
-import mware_lib.networking.MethodCaller;
+import mware_lib.networking.ICallMethodDefiner;
 
 import java.io.IOException;
 import java.io.Serializable;
 
-public class NameServiceServant extends Servant implements MethodCaller {
-	
-	static public final String resolveMsgString = "resolve";
-	static public final String rebindMsgString = "rebind";
-	
+public class NameServiceServant extends Servant implements ICallMethodDefiner {
+
+    /**
+     * defines the name of the communication protocol
+     */
+    static public final String resolveMsgString = "resolve";
+
+    /**
+     * defines the name of the communication protocol
+     */
+    static public final String rebindMsgString = "rebind";
+
+
 	public NameServiceServant(Object servant) throws IOException{
 		super(servant);
 		

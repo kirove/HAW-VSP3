@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.net.Socket;
 
 public class SkeletonThread extends Thread {
-	private final MethodCaller caller;
+	private final ICallMethodDefiner caller;
 	private final Socket socket;
 	
 	
-	public SkeletonThread(final MethodCaller caller, final Socket socket) {
+	public SkeletonThread(final ICallMethodDefiner caller, final Socket socket) {
 		this.caller = caller;
 		this.socket = socket;
 		
