@@ -13,7 +13,8 @@ public class SkeletonThread extends Thread {
 	public SkeletonThread(final ICallMethodDefiner caller, final Socket socket) {
 		this.caller = caller;
 		this.socket = socket;
-		
+
+		// activate Background Process
 		this.setDaemon(true);
 		this.start();
 	}

@@ -1,20 +1,22 @@
-package mware_lib.name_server;
+package NameServiceApplication.name_service;
 
 import mware_lib.ServantTypeAssoziation;
 
 import java.io.Serializable;
 
-public class RemoteMethodConection implements Serializable {
+public class RebindRequest implements Serializable {
+
+	private static final long serialVersionUID = 63911907370711106L;
 	
-	private static final long serialVersionUID = -227460439822816353L;
 	private final String hostname;
 	private final int port;
+	private final String methodName;
 	private final ServantTypeAssoziation servantType;
-
-	RemoteMethodConection(String hostname, int port, ServantTypeAssoziation servantType)
-	{
+	
+	public RebindRequest(String hostname, int port, String methodName, ServantTypeAssoziation servantType){
 		this.hostname = hostname;
 		this.port = port;
+		this.methodName = methodName;
 		this.servantType = servantType;
 	}
 
@@ -25,16 +27,19 @@ public class RemoteMethodConection implements Serializable {
 	public int getPort() {
 		return port;
 	}
+
+	public String getMethodName() {
+		return methodName;
+	}
 	
 	public ServantTypeAssoziation getServantType() {
 		return servantType;
 	}
-	
-	
+
 	
 	public String toString() {
-		return "RemoteMethodConection [hostname=" + hostname + ", port=" + port
-				+ "]";
+		return "RebindRequest [hostname=" + hostname + ", port=" + port
+				+ ", methodName=" + methodName + "]";
 	}
 
 	public int hashCode() {
@@ -42,6 +47,8 @@ public class RemoteMethodConection implements Serializable {
 		int result = 1;
 		result = prime * result
 				+ ((hostname == null) ? 0 : hostname.hashCode());
+		result = prime * result
+				+ ((methodName == null) ? 0 : methodName.hashCode());
 		result = prime * result + port;
 		return result;
 	}
@@ -53,15 +60,22 @@ public class RemoteMethodConection implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RemoteMethodConection other = (RemoteMethodConection) obj;
+		RebindRequest other = (RebindRequest) obj;
 		if (hostname == null) {
 			if (other.hostname != null)
 				return false;
 		} else if (!hostname.equals(other.hostname))
 			return false;
+		if (methodName == null) {
+			if (other.methodName != null)
+				return false;
+		} else if (!methodName.equals(other.methodName))
+			return false;
 		if (port != other.port)
 			return false;
 		return true;
 	}
+	
+	
 
 }

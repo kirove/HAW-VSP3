@@ -5,8 +5,7 @@ import bank_access.ManagerServant;
 import bank_access.ManagerStub;
 import cash_access.Account;
 import cash_access.AccountServant;
-import cash_access.AccountStub;
-import mware_lib.name_server.RemoteMethodConection;
+import name_service.RemoteMethodConection;
 
 import java.io.IOException;
 
@@ -21,11 +20,13 @@ public class ObjectBroker {
 		this.socket = new NameServiceStub(serviceHost, listenPort);
 	}
 
-	// Das hier zur�ckgelieferte Objekt soll der zentrale Einstiegspunkt
-	// der Middleware aus Anwendersicht sein.
-	// Parameter: Host und Port, bei dem die Dienste (Namensdienst)
-	// kontaktiert werden sollen.
-	public static ObjectBroker getBroker(String serviceHost, int listenPort) {
+    /**
+     * Here is the Start Point where the Applications are starting to use the Middelware
+     * @param serviceHost: the Address of the Name service
+     * @param listenPort: the Port of the Name service
+     * @return : ObjectBroker Object
+     */
+	public static ObjectBroker init(String serviceHost, int listenPort) {
 		return new ObjectBroker(serviceHost, listenPort);
 	}
 

@@ -1,4 +1,4 @@
-package mware_lib.name_server;
+package NameServiceApplication.name_service;
 
 import mware_lib.NameService;
 

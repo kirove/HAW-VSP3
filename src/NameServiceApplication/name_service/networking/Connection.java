@@ -1,4 +1,4 @@
-package mware_lib.networking;
+package NameServiceApplication.name_service.networking;
 
 import java.io.*;
 import java.net.Socket;
