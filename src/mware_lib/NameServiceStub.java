@@ -1,8 +1,7 @@
 package mware_lib;
 
-import name_service. ;
-import name_service.RebindRequest;
-import name_service.RemoteMethodConection;
+
+
 import mware_lib.networking.Stub;
 import java.io.IOException;
 import java.net.UnknownHostException;
