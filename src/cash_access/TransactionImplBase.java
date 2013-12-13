@@ -1,6 +1,8 @@
 package cash_access;
 
-public abstract class TransactionImplBase {
+import mware_lib.IServant;
+
+public abstract class TransactionImplBase implements IServant {
 
     public abstract void deposit(String accountId,double amount) throws InvalidParamException;
 

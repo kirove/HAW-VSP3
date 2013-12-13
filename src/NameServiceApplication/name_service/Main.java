@@ -4,11 +4,13 @@ import NameServiceApplication.name_service.networking.*;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.ServerSocket;
 
 
 public class Main {
+
 
     /**
      * defines the name of the communication protocol
@@ -64,7 +66,7 @@ public class Main {
 
 
 
-    private class NameServiceThread extends Thread {
+    private class NameServiceThread extends Thread   {
         private Socket socket;
         private RegisteredServices registeredServices;
 
@@ -87,27 +89,29 @@ public class Main {
 
                     final CommunicationObject request = connection.receive();
 
-                    if (request.getMethodName() == "rebind") {
+
+
+                    if (request.getCallingMethodName() == "rebind") {
 
                         Object[] paramArray = request.getParametersArray();
 
                         //register new service
-                        this.registeredServices.registerService((String) paramArray[0], (ServiceReference) paramArray[1]);
+                        this.registeredServices.registerService(request.getServiceName(), (InetSocketAddress) paramArray[0]);
 
 
                         //done
 
-                    } else if (request.getMethodName() == "resolve") {
+                    } else if (request.getCallingMethodName() == "resolve") {
 
                         Object[] requestParamArray = request.getParametersArray();
 
                         // get the corresponding serviceRefernce
-                        ServiceReference serviceReference = this.registeredServices.getServiceReference((String) requestParamArray[0]);
+                        InetSocketAddress serviceReference = this.registeredServices.getServiceReference(request.getServiceName());
                         // set up the ParamArray for the message to send to client,
                         // requestParamArray[0] is the serviceName (String)
-                        Object[] responseParamArray = new Object[]{requestParamArray[0], serviceReference};
+                        Object[] responseParamArray = new Object[]{serviceReference};
                         // set up the CommunicationObject to send
-                        CommunicationObject sendCommunicationObject = new CommunicationObject("response", responseParamArray);
+                        CommunicationObject sendCommunicationObject = new CommunicationObject(request.getServiceName(), request.getCallingMethodName(), responseParamArray);
                         //send the shit
                         connection.send(sendCommunicationObject);
 

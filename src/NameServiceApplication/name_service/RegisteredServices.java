@@ -1,5 +1,6 @@
 package NameServiceApplication.name_service;
 
+import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,8 @@ import java.util.Map;
 public class RegisteredServices {
 
     private static RegisteredServices instance = null;
-    private Map<String, ServiceReference> registeredServicesMap = new HashMap<String, ServiceReference>();
+    // holding the adress of the server where you cann reach the service
+    private Map<String, InetSocketAddress> registeredServicesMap = new HashMap<String, InetSocketAddress>();
 
 
     private RegisteredServices() {
@@ -29,12 +31,12 @@ public class RegisteredServices {
 
     }
 
-    public synchronized ServiceReference getServiceReference(String serviceName) {
+    public synchronized InetSocketAddress getServiceReference(String serviceName) {
         return registeredServicesMap.get(serviceName);
 
     }
 
-    public synchronized void registerService(String serviceName, ServiceReference serviceReference) {
+    public synchronized void registerService(String serviceName, InetSocketAddress serviceReference) {
         this.registeredServicesMap.put(serviceName, serviceReference);
 
     }

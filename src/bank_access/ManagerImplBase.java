@@ -1,6 +1,9 @@
 package bank_access;
 
-public abstract class ManagerImplBase {
+import mware_lib.IServant;
+import sun.nio.cs.ext.ISCII91;
+
+public abstract class ManagerImplBase implements IServant {
     /**
      * @param owner
      * @param branch: auf deutsch= filiale

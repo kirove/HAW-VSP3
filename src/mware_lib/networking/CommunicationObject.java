@@ -1,4 +1,4 @@
-package NameServiceApplication.name_service.networking;
+package mware_lib.networking;
 
 import java.io.Serializable;
 
@@ -27,7 +27,7 @@ public class CommunicationObject implements Serializable {
         return parametersArray;
     }
 
-    public String getCallingMethodName() {
+    public String getCallingMehtodName() {
         return callingMehtodName;
     }
 }

@@ -1,7 +1,5 @@
 package NameServiceApplication.name_service;
 
-import mware_lib.ServantTypeAssoziation;
-
 import java.io.Serializable;
 
 public class RemoteMethodConection implements Serializable {

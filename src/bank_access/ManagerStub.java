@@ -1,7 +1,5 @@
 package bank_access;
 
-import mware_lib.networking.Stub;
-
 import java.io.IOException;
 import java.io.Serializable;
 

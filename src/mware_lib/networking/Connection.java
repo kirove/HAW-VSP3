@@ -18,20 +18,20 @@ public class Connection {
 	}
 	
 	
-	public final Serializable receive() throws IOException, ClassNotFoundException {
+	public final CommunicationObject receive() throws IOException, ClassNotFoundException {
 		if (objectInputStream == null) {
 			// this is blocking if no data is available
 			objectInputStream = new ObjectInputStream(inputStream);
 		}
 		
-		final Serializable object = (Serializable) objectInputStream.readObject();
+		final CommunicationObject communicationObject = (CommunicationObject) objectInputStream.readObject();
 		
-		return object;
+		return communicationObject;
 	}
 	
 	
-	public void send(final Serializable object) throws IOException {
-		objectOutputStream.writeObject(object);
+	public void send(final CommunicationObject communicationObject) throws IOException {
+		objectOutputStream.writeObject(communicationObject);
 		objectOutputStream.flush();
 	}
 	
