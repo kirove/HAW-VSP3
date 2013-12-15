@@ -6,6 +6,6 @@
 *.ear
 # Intellij
 .idea/
-*.iml
 *.iws
+out/
 #
