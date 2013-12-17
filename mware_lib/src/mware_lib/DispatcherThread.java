@@ -28,7 +28,6 @@ public class DispatcherThread extends Thread {
 
 
     /**
-     *
      * @param serverApplicationPort
      * @return
      */
@@ -44,10 +43,10 @@ public class DispatcherThread extends Thread {
 
     public void run() {
 
-
         try {
             while (!isInterrupted()) {
                 Socket socket = this.serverSocket.accept();
+
 
                 Connection connection = new Connection(socket);
 
@@ -58,10 +57,12 @@ public class DispatcherThread extends Thread {
 
                 skeleton.initiate(socket, communicationObject);
             }
-
-        } catch (Exception e) {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
 
     }
 

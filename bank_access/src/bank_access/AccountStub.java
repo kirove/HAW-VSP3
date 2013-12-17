@@ -3,6 +3,7 @@ package bank_access;
 import networking.CommunicationObject;
 import networking.Connection;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -26,11 +27,12 @@ public class AccountStub extends AccountImplBase {
 
         InetSocketAddress inetSocketAddressServerApp = (InetSocketAddress) gorCommObject.getParametersArray()[0];
 
-        try {
-            Socket socket = new Socket(inetSocketAddressServerApp.getAddress(), inetSocketAddressServerApp.getPort());
 
+        Socket socket = null;
+        try {
+            socket = new Socket(inetSocketAddressServerApp.getAddress(), inetSocketAddressServerApp.getPort());
             connectionBoundToService = new Connection(socket);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -43,19 +45,23 @@ public class AccountStub extends AccountImplBase {
 
         CommunicationObject sendCommObject = new CommunicationObject(SERVICE_NAME, "transfer", new Object[]{amount});
 
+
         try {
             connectionBoundToService.send(sendCommObject);
+            CommunicationObject receiveCommunicationObject = null;
 
-            CommunicationObject receiveCommunicationObject = connectionBoundToService.receive();
+            receiveCommunicationObject = connectionBoundToService.receive();
 
             if (receiveCommunicationObject.getParametersArray()[0] instanceof OverdraftException) {
                 throw (OverdraftException) receiveCommunicationObject.getParametersArray()[0];
             }
-
-
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
     }
 
     @Override
@@ -64,14 +70,15 @@ public class AccountStub extends AccountImplBase {
 
         try {
             connectionBoundToService.send(sendCommObject);
-
             CommunicationObject receiveCommunicationObject = connectionBoundToService.receive();
 
             return (Double) receiveCommunicationObject.getParametersArray()[0];
-
-
-        } catch (Exception e) {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+
     }
 }

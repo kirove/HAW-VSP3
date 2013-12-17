@@ -3,6 +3,7 @@ package bank_access;
 import networking.CommunicationObject;
 import networking.Connection;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -26,12 +27,12 @@ public class ManagerStub extends ManagerImplBase {
 
         InetSocketAddress inetSocketAddressServerApp = (InetSocketAddress) gorCommObject.getParametersArray()[0];
 
+
         try {
             Socket socket = new Socket(inetSocketAddressServerApp.getAddress(), inetSocketAddressServerApp.getPort());
-
             connectionToService = new Connection(socket);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
@@ -47,11 +48,12 @@ public class ManagerStub extends ManagerImplBase {
             CommunicationObject receiveCommunicationObject = connectionToService.receive();
 
             return (String) receiveCommunicationObject.getParametersArray()[0];
-
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
-
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+
 
     }
 }

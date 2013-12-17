@@ -60,8 +60,8 @@ public class NameServiceImpl extends NameService {
             this.dispatcherThread.start();
         }
 
-             IServant specifiedServant = (IServant) servant;
-            Skeleton skeleton = specifiedServant.getSkeleton(specifiedServant);
+        IServant specifiedServant = (IServant) servant;
+        Skeleton skeleton = specifiedServant.getSkeleton(specifiedServant);
 
         //Put the mware_lib.Skeleton in a Map
         this.REGISTERED_SKELETONS.registerSkeleton(serviceName, skeleton);
@@ -86,14 +86,18 @@ public class NameServiceImpl extends NameService {
     @Override
     public Object resolve(String serviceName) {
 
+
+        Connection connection = null;
+        CommunicationObject gor = null;
         try {
-            Connection connection = new Connection(new Socket(inetSocketAddressNameServer.getAddress(), inetSocketAddressNameServer.getPort()));
+            connection = new Connection(new Socket(inetSocketAddressNameServer.getAddress(), inetSocketAddressNameServer.getPort()));
+
 
             CommunicationObject sendCommObject = new CommunicationObject(serviceName, "resolve", new Object[]{});
 
             connection.send(sendCommObject);
 
-            CommunicationObject gor = connection.receive();
+            gor = connection.receive();
 
             // NameServer is sending an exception if the requested service name wasn't found
             if (gor.getParametersArray()[0] instanceof Exception) {
@@ -103,12 +107,13 @@ public class NameServiceImpl extends NameService {
 
             connection.close();
 
-            return gor;
-
-
-        } catch (Exception e) {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+        return gor;
 
 
     }
