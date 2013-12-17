@@ -1,4 +1,4 @@
-package networking;
+package mware_lib.networking;
 
 import java.io.Serializable;
 

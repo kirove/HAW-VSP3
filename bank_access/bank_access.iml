@@ -8,7 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mware_lib" />
-    <orderEntry type="module" module-name="networking" scope="PROVIDED" />
   </component>
 </module>
 

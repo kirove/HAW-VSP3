@@ -8,8 +8,8 @@ package mware_lib; /**
 
 
 
-import networking.CommunicationObject;
-import networking.Connection;
+import mware_lib.networking.CommunicationObject;
+import mware_lib.networking.Connection;
 
 import java.io.IOException;
 import java.net.Socket;
