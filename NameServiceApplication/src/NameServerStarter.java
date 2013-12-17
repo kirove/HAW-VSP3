@@ -94,6 +94,10 @@ public class NameServerStarter {
 
                 while (!socket.isClosed() && !isInterrupted()) {
 
+
+                    System.out.println("Ready to receive...");
+
+
                     final CommunicationObject request = connection.receive();
 
 
@@ -139,11 +143,13 @@ public class NameServerStarter {
                 if (!connection.isClosed()) {
                     connection.close();
                 }
-            } catch (EOFException e) {
-                // connection was closed by the client, so close the worker thread for this client
-                System.out.println("Connection closed by client!");
+            }
+            catch (EOFException e) {
+
+                System.out.println("Unexpected end of stream...");
                 return;
-            } catch (IOException e) {
+            }
+        catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

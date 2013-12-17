@@ -50,7 +50,7 @@ public class ObjectBroker {
     }
 
 
-    public void shutdown(){
+    public void shutDown(){
         this.nameService.shutdown();
 
     }

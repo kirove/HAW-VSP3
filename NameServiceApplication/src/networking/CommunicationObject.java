@@ -1,6 +1,7 @@
 package networking;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class CommunicationObject implements Serializable {
 
@@ -29,5 +30,14 @@ public class CommunicationObject implements Serializable {
 
     public String getCallingMethodName() {
         return callingMehtodName;
+    }
+
+    @Override
+    public String toString() {
+        return "CommunicationObject{" +
+                "serviceName='" + serviceName + '\'' +
+                ", callingMehtodName='" + callingMehtodName + '\'' +
+                ", parametersArray=" + Arrays.toString(parametersArray) +
+                '}';
     }
 }

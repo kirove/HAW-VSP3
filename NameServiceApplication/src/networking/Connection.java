@@ -28,17 +28,19 @@ public class Connection {
 //            objectInputStream = new ObjectInputStream(inputStream);
 //        }
 
-
+        System.out.println("in Connection.receive()");
         ObjectInputStream objectInputStream = new ObjectInputStream(this.socket.getInputStream());
-
+        System.out.println("in Connection.receive() after socket.getInputStream()");
         // readObject deserializes  the incomming objectStream
         final CommunicationObject communicationObject = (CommunicationObject) objectInputStream.readObject();
+        System.out.println("in Connection.received: " + communicationObject);
 
         return communicationObject;
     }
 
 
     public void send(final CommunicationObject communicationObject) throws IOException {
+        System.out.println("in Connection.send()");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectOutputStream.flush();
     }
