@@ -1,4 +1,7 @@
+package cash_access;
 
+import networking.CommunicationObject;
+import networking.Connection;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

@@ -1,5 +1,9 @@
+package mware_lib;
 
+import networking.CommunicationObject;
+import networking.Connection;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -46,6 +50,8 @@ public class NameServiceImpl extends NameService {
     }
 
 
+    //TODO: Interface definieren
+
     @Override
     public void rebind(Object servant, String serviceName) {
 
@@ -54,44 +60,26 @@ public class NameServiceImpl extends NameService {
             this.dispatcherThread.start();
         }
 
+             IServant specifiedServant = (IServant) servant;
+            Skeleton skeleton = specifiedServant.getSkeleton(specifiedServant);
 
-        if (servant instanceof AccountImplBase) {
-
-            Skeleton skeleton = new AccountSkeleton((AccountImplBase) servant);
-            processRebind(serviceName, skeleton);
-
-
-        } else if (servant instanceof ManagerImplBase) {
-
-            Skeleton skeleton = new ManagerSkeleton((ManagerImplBase) servant);
-            processRebind(serviceName, skeleton);
-
-
-        } else if (servant instanceof TransactionImplBase) {
-            Skeleton skeleton = new TransactionSkeleton((TransactionImplBase) servant);
-            processRebind(serviceName, skeleton);
-        }
-
-
-        throw new RuntimeException(new ClassNotFoundException("NameServiceImpl.rebind(): Servant of unknown type!"));
-    }
-
-    private void processRebind(String serviceName, Skeleton skeleton) {
-        //Put the Skeleton in a Map
+        //Put the mware_lib.Skeleton in a Map
         this.REGISTERED_SKELETONS.registerSkeleton(serviceName, skeleton);
 
         Object[] paramArray = new Object[]{inetSocketAddressServerApplication};
         CommunicationObject sendCommObject = new CommunicationObject(serviceName, "rebind", paramArray);
-
         try {
+
             Connection connection = new Connection(new Socket(inetSocketAddressNameServer.getAddress(), inetSocketAddressNameServer.getPort()));
 
             connection.send(sendCommObject);
-            connection.close();
 
-        } catch (Exception e) {
+            connection.close();
+        } catch (IOException e) {
             throw new RuntimeException(e);  //To change body of catch statement use File | Settings | File Templates.
         }
+
+
     }
 
 

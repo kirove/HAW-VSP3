@@ -1,3 +1,4 @@
+package mware_lib;
 
 import java.util.HashMap;
 import java.util.Map;

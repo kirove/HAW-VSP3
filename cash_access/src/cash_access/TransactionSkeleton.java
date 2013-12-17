@@ -1,4 +1,8 @@
+package cash_access;
 
+
+import mware_lib.Skeleton;
+import mware_lib.VoidObject;
 
 /**
  * Created by Cenan on 12.12.13.

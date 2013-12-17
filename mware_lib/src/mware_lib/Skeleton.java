@@ -1,4 +1,4 @@
-/**
+package mware_lib; /**
  * Created with IntelliJ IDEA.
  * User: me
  * Date: 12/11/13
@@ -7,6 +7,9 @@
  */
 
 
+
+import networking.CommunicationObject;
+import networking.Connection;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -49,7 +52,7 @@ public abstract class Skeleton<E extends IServant> extends Thread {
 
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("The connection cant be established");
+            System.err.println("The connection can't be established...");
 
         }
     }

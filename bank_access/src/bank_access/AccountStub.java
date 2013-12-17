@@ -1,8 +1,13 @@
+package bank_access;
+
+import networking.CommunicationObject;
+import networking.Connection;
+
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
 /**
- * Extends AccountImplBase is a Stub responsible for the communication with the server side using serialized Objects
+ * Extends bank_access.AccountImplBase is a Stub responsible for the communication with the server side using serialized Objects
  */
 public class AccountStub extends AccountImplBase {
 

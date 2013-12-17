@@ -1,3 +1,5 @@
+package mware_lib;
+
 public abstract class NameService {
     /**
      * Registers a remote object / service for name

@@ -1,3 +1,8 @@
+package bank_access;
+
+
+import mware_lib.Skeleton;
+
 /**
  * Created by Cenan on 12.12.13.
  */
@@ -21,6 +26,6 @@ public class ManagerSkeleton extends Skeleton<ManagerImplBase> {
 
         }
 
-        return new RuntimeException("Method not Found in ManagerSkeleton");
+        return new RuntimeException("Method not Found in bank_access.ManagerSkeleton");
     }
 }

@@ -1,3 +1,5 @@
+package networking;
+
 import java.io.Serializable;
 
 public class CommunicationObject implements Serializable {

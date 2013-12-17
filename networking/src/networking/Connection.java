@@ -1,8 +1,10 @@
+package networking;
+
 import java.io.*;
 import java.net.Socket;
 
 /**
- * is responsable for all the communications, send/ receive / close Connection including Streams In/Output
+ * is responsable for all the communications, send/ receive / close networking.Connection including Streams In/Output
  */
 public class Connection {
 	private final InputStream inputStream;

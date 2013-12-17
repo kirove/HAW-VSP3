@@ -1,3 +1,9 @@
+package bank_access;
+
+
+import mware_lib.Skeleton;
+import mware_lib.VoidObject;
+
 /**
  * Created by Cenan on 12.12.13.
  */
@@ -23,6 +29,6 @@ public class AccountSkeleton extends Skeleton<AccountImplBase> {
         else if(methodName.equals("getBalance")){
             return super.getServant().getBalance();
         }
-         return new RuntimeException("Method not Found in AccountSkeleton");
+         return new RuntimeException("Method not Found in bank_access.AccountSkeleton");
     }
 }

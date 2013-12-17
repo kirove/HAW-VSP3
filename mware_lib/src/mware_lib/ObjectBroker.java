@@ -1,3 +1,5 @@
+package mware_lib;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -16,7 +18,7 @@ public class ObjectBroker {
             inetNameServerAddress = InetAddress.getByName(nameServerAddress);
 
         } catch (UnknownHostException e) {
-                        System.err.println("ObjectBroker: Unknown host");
+                        System.err.println("mware_lib.ObjectBroker: Unknown host");
             throw new RuntimeException(e);
 
         }
@@ -29,7 +31,7 @@ public class ObjectBroker {
      *
      * @param serviceHost: the Address of the Name service
      * @param port:  the Port of the Name service
-     * @return : ObjectBroker Object
+     * @return : mware_lib.ObjectBroker Object
      */
     public static ObjectBroker init(String serviceHost, int port) {
 

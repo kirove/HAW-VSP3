@@ -1,3 +1,9 @@
+package bank_access;
+
+
+import mware_lib.IServant;
+import mware_lib.Skeleton;
+
 public abstract class ManagerImplBase implements IServant {
     /**
      * @param owner
@@ -7,12 +13,18 @@ public abstract class ManagerImplBase implements IServant {
     public abstract String createAccount(String owner, String branch);
 
     /**
-     * downcast object to ManagerImplBase
+     * downcast object to bank_access.ManagerImplBase
      *
      * @param gor: Object
-     * @return ManagerImplBase Object
+     * @return bank_access.ManagerImplBase Object
      */
     public static ManagerImplBase narrowCast(Object gor) {
         return new ManagerStub(gor);
+    }
+
+
+    @Override
+    public Skeleton getSkeleton(IServant servant) {
+        return new ManagerSkeleton((ManagerImplBase) servant);
     }
 }

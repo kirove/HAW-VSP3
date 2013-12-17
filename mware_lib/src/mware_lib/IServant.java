@@ -1,6 +1,9 @@
+package mware_lib;
+
 /**
  * Created by Cenan on 11.12.13.
  */
 public interface IServant {
-    //Markerinterface
+
+    Skeleton getSkeleton(IServant servant);
 }

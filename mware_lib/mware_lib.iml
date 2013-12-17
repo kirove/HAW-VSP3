@@ -8,9 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="networking" scope="PROVIDED" />
-    <orderEntry type="module" module-name="utilities" scope="PROVIDED" />
-    <orderEntry type="module" module-name="bank_access" scope="PROVIDED" />
-    <orderEntry type="module" module-name="cash_access" scope="PROVIDED" />
   </component>
 </module>
 
