@@ -1,5 +1,7 @@
 package mware_lib;
 
+
+
 import mware_lib.networking.CommunicationObject;
 import mware_lib.networking.Connection;
 
@@ -27,15 +29,7 @@ public class NameServiceImpl extends NameService {
     private final RegisteredSkeletons REGISTERED_SKELETONS = RegisteredSkeletons.getInstance();
 
     private final InetSocketAddress inetSocketAddressNameServer;
-    private final InetSocketAddress inetSocketAddressServerApplication;
-
-    public static NameServiceImpl getInstance(InetAddress inetAddressNameServer, int nameServerPort, int serverApplicationPort) {
-        if (instance == null) {
-            instance = new NameServiceImpl(inetAddressNameServer, nameServerPort, serverApplicationPort);
-
-        }
-        return instance;
-    }
+    private final InetSocketAddress I_NET_SOCKET_ADDRESS_SERVER_APP;
 
     private NameServiceImpl(InetAddress inetAddressNameServer, int nameServerPort, int serverApplicationPort) {
         InetAddress inetAddressServerApplication = null;
@@ -45,8 +39,19 @@ public class NameServiceImpl extends NameService {
             throw new RuntimeException(e);
         }
         this.inetSocketAddressNameServer = new InetSocketAddress(inetAddressNameServer, nameServerPort);
-        this.inetSocketAddressServerApplication = new InetSocketAddress(inetAddressServerApplication, serverApplicationPort);
+        this.I_NET_SOCKET_ADDRESS_SERVER_APP = new InetSocketAddress(inetAddressServerApplication, serverApplicationPort);
 
+        System.out.println("\nLocal nameService(impl) started !\nNameServer Ip: " + inetSocketAddressNameServer.getAddress().toString() + "\nNameServer Port: " + inetSocketAddressNameServer.getPort());
+    }
+
+    public static NameServiceImpl getInstance(InetAddress inetAddressNameServer, int nameServerPort, int serverApplicationPort) {
+
+
+        if (instance == null) {
+            instance = new NameServiceImpl(inetAddressNameServer, nameServerPort, serverApplicationPort);
+
+        }
+        return instance;
     }
 
 
@@ -56,9 +61,9 @@ public class NameServiceImpl extends NameService {
     public void rebind(Object servant, String serviceName) {
 
         if (this.dispatcherThread == null) {
-            this.dispatcherThread = DispatcherThread.getInstance(inetSocketAddressServerApplication.getPort());
-            this.dispatcherThread.start();
+            this.dispatcherThread = DispatcherThread.getInstance(I_NET_SOCKET_ADDRESS_SERVER_APP.getPort());
         }
+
 
         IServant specifiedServant = (IServant) servant;
         Skeleton skeleton = specifiedServant.getSkeleton(specifiedServant);
@@ -66,7 +71,7 @@ public class NameServiceImpl extends NameService {
         //Put the mware_lib.Skeleton in a Map
         this.REGISTERED_SKELETONS.registerSkeleton(serviceName, skeleton);
 
-        Object[] paramArray = new Object[]{inetSocketAddressServerApplication};
+        Object[] paramArray = new Object[]{I_NET_SOCKET_ADDRESS_SERVER_APP};
         CommunicationObject sendCommObject = new CommunicationObject(serviceName, "rebind", paramArray);
         try {
 

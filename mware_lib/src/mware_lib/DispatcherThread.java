@@ -1,5 +1,7 @@
 package mware_lib;
 
+
+
 import mware_lib.networking.CommunicationObject;
 import mware_lib.networking.Connection;
 
@@ -34,6 +36,7 @@ public class DispatcherThread extends Thread {
     public static DispatcherThread getInstance(int serverApplicationPort) {
         if (instance == null) {
             instance = new DispatcherThread(serverApplicationPort);
+            instance.start();
         }
 
         return instance;

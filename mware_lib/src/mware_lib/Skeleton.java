@@ -8,6 +8,7 @@ package mware_lib; /**
 
 
 
+
 import mware_lib.networking.CommunicationObject;
 import mware_lib.networking.Connection;
 
@@ -64,7 +65,7 @@ public abstract class Skeleton<E extends IServant> extends Thread {
 
         Object[] responseArray = new Object[]{returnValue};
 
-        CommunicationObject responseCommunicationObject = new CommunicationObject(receivedCommObject.getServiceName(), receivedCommObject.getCallingMehtodName(), responseArray);
+        CommunicationObject responseCommunicationObject = new CommunicationObject(receivedCommObject.getServiceName(), receivedCommObject.getCallingMethodName(), responseArray);
 
         connection.send(responseCommunicationObject);
     }
@@ -82,7 +83,7 @@ public abstract class Skeleton<E extends IServant> extends Thread {
 
                     Object[] responseArray = new Object[]{new RuntimeException("Error: You are trying to use this reserved Socket for the wrong Service...")};
 
-                    CommunicationObject responseCommunicationObject = new CommunicationObject(communicationObject.getServiceName(), communicationObject.getCallingMehtodName(), responseArray);
+                    CommunicationObject responseCommunicationObject = new CommunicationObject(communicationObject.getServiceName(), communicationObject.getCallingMethodName(), responseArray);
 
                     connection.send(responseCommunicationObject);
                 } else {

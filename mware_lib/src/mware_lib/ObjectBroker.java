@@ -22,6 +22,9 @@ public class ObjectBroker {
             throw new RuntimeException(e);
 
         }
+
+        System.out.println("\nObjectBorker started !\nNameServer Ip: " + inetNameServerAddress.toString()+ "\nNameServer Port: " + nameServerPort);
+
         this.nameService = NameServiceImpl.getInstance(inetNameServerAddress, nameServerPort, SERVER_APPLICATION_PORT);
 
     }
@@ -33,10 +36,11 @@ public class ObjectBroker {
      * @param port:  the Port of the Name service
      * @return : mware_lib.ObjectBroker Object
      */
-    public static ObjectBroker init(String serviceHost, int port) {
+    public static ObjectBroker init(String nameServerAddress, int nameServerPort) {
 
+        System.out.println("\nObjectBorker initiated !\nNameServer Ip: " + nameServerAddress + "\nNameServer Port: " + nameServerPort);
 
-        return new ObjectBroker(serviceHost, port);
+        return new ObjectBroker(nameServerAddress, nameServerPort);
 
     }
 

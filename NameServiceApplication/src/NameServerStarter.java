@@ -1,7 +1,11 @@
-import networking.*;
+
+
+import networking.CommunicationObject;
+import networking.Connection;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.ServerSocket;
@@ -50,7 +54,10 @@ public class NameServerStarter {
 
 
     public NameServerStarter(int port) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(port);
+        ServerSocket serverSocket = new ServerSocket(port, 50, InetAddress.getLocalHost());
+
+        System.out.println("NameServer started !\nIp: " + serverSocket.getInetAddress().getHostAddress() + "\nPort: " + serverSocket.getLocalPort());
+
 
         try {
             // TODO change break statement (True into something else hi stephan)
@@ -91,7 +98,7 @@ public class NameServerStarter {
 
 
                     if (request.getCallingMethodName() == "rebind") {
-
+                        System.out.println("rebinding...");
                         Object[] paramArray = request.getParametersArray();
 
                         //register new service
@@ -103,6 +110,7 @@ public class NameServerStarter {
                     } else if (request.getCallingMethodName() == "resolve") {
 
                         if (this.registeredServices.isRegisteredService(request.getServiceName())) {
+                            System.out.println("resolving...");
                             // get the corresponding serviceReference
                             InetSocketAddress serviceReference = this.registeredServices.getServiceReference(request.getServiceName());
                             // set up the ParamArray for the message to send to client,

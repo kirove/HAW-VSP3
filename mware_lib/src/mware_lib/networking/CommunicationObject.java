@@ -18,16 +18,16 @@ public class CommunicationObject implements Serializable {
     }
 
 
-    public String getServiceName() {
+    public final String getServiceName() {
         return serviceName;
     }
 
 
-    public Object[] getParametersArray() {
+    public final Object[] getParametersArray() {
         return parametersArray;
     }
 
-    public String getCallingMehtodName() {
+    public String getCallingMethodName() {
         return callingMehtodName;
     }
 }
