@@ -1,0 +1,1 @@
+java -cp .:geldautomat.jar:bank_access.jar:cash_access.jar:mware_lib.jar:networking.jar geldautomat.Geldautomat "127.0.1.1" 55555 "FunkBank" -v
