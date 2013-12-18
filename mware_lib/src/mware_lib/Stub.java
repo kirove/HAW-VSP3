@@ -1,7 +1,9 @@
 package mware_lib;
 
-import mware_lib.networking.CommunicationObject;
-import mware_lib.networking.Connection;
+
+
+import networking.CommunicationObject;
+import networking.Connection;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

@@ -1,5 +1,6 @@
 package networking;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,9 +10,9 @@ import java.net.Socket;
  * is responsiable for all the communications, send/ receive / close Connection including Streams In/Output
  */
 public class Connection {
-   // private final InputStream inputStream;
-   // private final ObjectOutputStream objectOutputStream;
-   // private ObjectInputStream objectInputStream;
+    // private final InputStream inputStream;
+    // private final ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream = null;
     private Socket socket;
 
 
@@ -29,11 +30,22 @@ public class Connection {
 //        }
 
         System.out.println("in Connection.receive()");
-        ObjectInputStream objectInputStream = new ObjectInputStream(this.socket.getInputStream());
+        if (this.objectInputStream == null) {
+            this.objectInputStream = new ObjectInputStream(new BufferedInputStream(this.socket.getInputStream()));
+            System.out.println("in Connection.receive() objectInputStream was null");
+        }
         System.out.println("in Connection.receive() after socket.getInputStream()");
         // readObject deserializes  the incomming objectStream
+
+
         final CommunicationObject communicationObject = (CommunicationObject) objectInputStream.readObject();
-        System.out.println("in Connection.received: " + communicationObject);
+
+//        final Object receivedCrap= objectInputStream.readObject();
+        System.out.println("in Connection.received vor cast auf CommunicationObject");
+//        final CommunicationObject communicationObject = (CommunicationObject) receivedCrap;
+        System.out.println("in Connection.received CommunicationObject: " + communicationObject);
+
+
 
         return communicationObject;
     }
@@ -42,6 +54,8 @@ public class Connection {
     public void send(final CommunicationObject communicationObject) throws IOException {
         System.out.println("in Connection.send()");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectOutputStream.writeObject(communicationObject);
+        System.out.println("in Connection.send CommunicationObject: " + communicationObject);
         objectOutputStream.flush();
     }
 
