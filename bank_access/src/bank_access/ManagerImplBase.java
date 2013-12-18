@@ -27,4 +27,9 @@ public abstract class ManagerImplBase implements IServant {
     public Skeleton getSkeleton(IServant servant) {
         return new ManagerSkeleton((ManagerImplBase) servant);
     }
+
+    @Override
+    public String getSkeletonName() {
+        return "ManagerImplBase";
+    }
 }

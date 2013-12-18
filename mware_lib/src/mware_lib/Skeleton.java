@@ -48,7 +48,11 @@ public abstract class Skeleton<E extends IServant> extends Thread {
 
             processCommunication(receivedCommObject);
 
-            this.start();
+            // start the Skeleton Thread if it's not started yet
+            if (!this.isAlive()){
+
+                this.start();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

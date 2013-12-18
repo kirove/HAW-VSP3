@@ -39,6 +39,7 @@ public class RegisteredSkeletons {
     }
 
     public synchronized void registerSkeleton(String serviceName, Skeleton serviceReference) {
+        System.out.println("registering Service: " + serviceName + " with the referenceType: " + serviceReference.getServant().getSkeletonName());
         this.registeredSkeletonMap.put(serviceName, serviceReference);
 
     }

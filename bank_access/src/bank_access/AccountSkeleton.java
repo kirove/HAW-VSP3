@@ -30,6 +30,6 @@ public class AccountSkeleton extends Skeleton<AccountImplBase> {
         else if(receivedCommObject.getCallingMethodName().equals("getBalance")){
             return super.getServant().getBalance();
         }
-         return new RuntimeException("Method not Found in bank_access.AccountSkeleton");
+         throw new RuntimeException("Method not Found in bank_access.AccountSkeleton");
     }
 }

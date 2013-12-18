@@ -29,4 +29,9 @@ public abstract class TransactionImplBase implements IServant {
         return new TransactionSkeleton((TransactionImplBase) servant);
     }
 
+    @Override
+    public String getSkeletonName() {
+        return "TransactionImplBase";
+    }
+
 }

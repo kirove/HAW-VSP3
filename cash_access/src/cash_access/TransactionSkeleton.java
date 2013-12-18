@@ -56,6 +56,6 @@ public class TransactionSkeleton extends Skeleton<TransactionImplBase> {
         }
 
 
-         return new RuntimeException("Method not Found in AccountSkeleton");
+         throw new RuntimeException("Method not Found in AccountSkeleton");
     }
 }

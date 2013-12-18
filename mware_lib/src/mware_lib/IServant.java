@@ -6,4 +6,6 @@ package mware_lib;
 public interface IServant {
 
     Skeleton getSkeleton(IServant servant);
+
+    String getSkeletonName();
 }

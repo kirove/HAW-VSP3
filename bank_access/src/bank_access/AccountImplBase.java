@@ -25,4 +25,9 @@ public  abstract class AccountImplBase implements IServant {
     public Skeleton getSkeleton(IServant servant) {
         return new AccountSkeleton((AccountImplBase) servant);
     }
+
+    @Override
+    public String getSkeletonName() {
+        return "AccountImplBase";
+    }
 }

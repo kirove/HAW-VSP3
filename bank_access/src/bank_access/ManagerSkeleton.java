@@ -29,7 +29,7 @@ public class ManagerSkeleton extends Skeleton<ManagerImplBase> {
 
         }
 
-        return new RuntimeException("Method not Found in bank_access.ManagerSkeleton");
+        throw new RuntimeException("Method not Found in bank_access.ManagerSkeleton");
 
     }
 }
