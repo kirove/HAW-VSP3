@@ -3,6 +3,7 @@ package bank_access;
 
 import mware_lib.Skeleton;
 import mware_lib.VoidObject;
+import networking.CommunicationObject;
 
 /**
  * Created by Cenan on 12.12.13.
@@ -14,11 +15,11 @@ public class AccountSkeleton extends Skeleton<AccountImplBase> {
         super(servant);
     }
 
-    public Object invokeMethod(Object[] parameterArray){
-        String methodName = (String)parameterArray[0];
+    public Object invokeMethod(CommunicationObject receivedCommObject){
 
-        if(methodName.equals("transfer")){
-            Double amount = (Double) parameterArray[1];
+
+        if(receivedCommObject.getCallingMethodName().equals("transfer")){
+            Double amount = (Double) receivedCommObject.getParametersArray()[1];
             try {
                 super.getServant().transfer(amount);
                 return VoidObject.getInstance();
@@ -26,7 +27,7 @@ public class AccountSkeleton extends Skeleton<AccountImplBase> {
                return e;
             }
         }
-        else if(methodName.equals("getBalance")){
+        else if(receivedCommObject.getCallingMethodName().equals("getBalance")){
             return super.getServant().getBalance();
         }
          return new RuntimeException("Method not Found in bank_access.AccountSkeleton");

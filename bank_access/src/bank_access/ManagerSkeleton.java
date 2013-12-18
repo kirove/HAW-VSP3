@@ -2,6 +2,7 @@ package bank_access;
 
 
 import mware_lib.Skeleton;
+import networking.CommunicationObject;
 
 /**
  * Created by Cenan on 12.12.13.
@@ -13,13 +14,15 @@ public class ManagerSkeleton extends Skeleton<ManagerImplBase> {
         super(servant);
     }
 
-    public Object invokeMethod(Object[] parameterArray) {
-        String methodName = (String) parameterArray[0];
+    public Object invokeMethod(CommunicationObject receivedCommObject) {
 
-        if (methodName.equals("createAccount")) {
 
-            String owner = (String) parameterArray[1];
-            String branch = (String) parameterArray[2];
+        if (receivedCommObject.getCallingMethodName().equals("createAccount")) {
+
+
+            String owner = (String) receivedCommObject.getParametersArray()[1];
+            String branch = (String) receivedCommObject.getParametersArray()[2];
+            System.out.println("ManagerSkeleton creating account: " + owner);
 
             return super.getServant().createAccount(owner, branch);
 
@@ -27,5 +30,6 @@ public class ManagerSkeleton extends Skeleton<ManagerImplBase> {
         }
 
         return new RuntimeException("Method not Found in bank_access.ManagerSkeleton");
+
     }
 }

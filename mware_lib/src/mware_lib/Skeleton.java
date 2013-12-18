@@ -22,7 +22,7 @@ public abstract class Skeleton<E extends IServant> extends Thread {
     private String serviceName;
 
 
-    protected abstract Object invokeMethod(Object[] parametersArray);
+    protected abstract Object invokeMethod(CommunicationObject receivedCommObject);
 
 
     public Skeleton(E servant) {
@@ -60,7 +60,7 @@ public abstract class Skeleton<E extends IServant> extends Thread {
     private void processCommunication(CommunicationObject receivedCommObject) throws IOException {
         Object[] receivedParametersArray = receivedCommObject.getParametersArray();
 
-        Object returnValue = invokeMethod(receivedParametersArray);
+        Object returnValue = invokeMethod(receivedCommObject);
 
         Object[] responseArray = new Object[]{returnValue};
 

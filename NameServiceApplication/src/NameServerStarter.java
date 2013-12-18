@@ -92,64 +92,65 @@ public class NameServerStarter {
                 final Connection connection = new Connection(socket);
 
 
-                while (!socket.isClosed() && !isInterrupted()) {
+                System.out.println("Ready to receive...");
 
 
-                    System.out.println("Ready to receive...");
+                final CommunicationObject request = connection.receive();
 
 
-                    final CommunicationObject request = connection.receive();
+                if (request.getCallingMethodName().equals("rebind")) {
+                    System.out.println("rebinding...");
+                    Object[] paramArray = request.getParametersArray();
+
+                    //register new service
+                    this.registeredServices.registerService(request.getServiceName(), (InetSocketAddress) paramArray[0]);
 
 
-                    if (request.getCallingMethodName() == "rebind") {
-                        System.out.println("rebinding...");
-                        Object[] paramArray = request.getParametersArray();
+                    //done
 
-                        //register new service
-                        this.registeredServices.registerService(request.getServiceName(), (InetSocketAddress) paramArray[0]);
+                } else if (request.getCallingMethodName().equals("resolve")) {
 
+                    if (this.registeredServices.isRegisteredService(request.getServiceName())) {
+                        System.out.println("resolving...");
+                        // get the corresponding serviceReference
+                        InetSocketAddress serviceReference = this.registeredServices.getServiceReference(request.getServiceName());
+                        // set up the ParamArray for the message to send to client,
+                        // requestParamArray[0] is the serviceName (String)
+                        Object[] responseParamArray = new Object[]{serviceReference};
+                        // set up the CommunicationObject to send
+                        CommunicationObject sendCommunicationObject = new CommunicationObject(request.getServiceName(), request.getCallingMethodName(), responseParamArray);
+                        //send the shit
+                        connection.send(sendCommunicationObject);
+                    }
+                    // requested service is unknown...
+                    else {
+                        System.err.println("requested service is unknown...");
 
-                        //done
-
-                    } else if (request.getCallingMethodName() == "resolve") {
-
-                        if (this.registeredServices.isRegisteredService(request.getServiceName())) {
-                            System.out.println("resolving...");
-                            // get the corresponding serviceReference
-                            InetSocketAddress serviceReference = this.registeredServices.getServiceReference(request.getServiceName());
-                            // set up the ParamArray for the message to send to client,
-                            // requestParamArray[0] is the serviceName (String)
-                            Object[] responseParamArray = new Object[]{serviceReference};
-                            // set up the CommunicationObject to send
-                            CommunicationObject sendCommunicationObject = new CommunicationObject(request.getServiceName(), request.getCallingMethodName(), responseParamArray);
-                            //send the shit
-                            connection.send(sendCommunicationObject);
-                        }
-                        // requested service is unknown...
-                        else {
-                            System.err.println("requested service is unknown...");
-
-                            Object[] responseParamArray = new Object[]{new IllegalArgumentException("Requested service is unknown...")};
-                            // set up the CommunicationObject to send
-                            CommunicationObject sendCommunicationObject = new CommunicationObject(request.getServiceName(), request.getCallingMethodName(), responseParamArray);
-                            //send the shit
-                            connection.send(sendCommunicationObject);
-                        }
-
+                        Object[] responseParamArray = new Object[]{new IllegalArgumentException("Requested service is unknown...")};
+                        // set up the CommunicationObject to send
+                        CommunicationObject sendCommunicationObject = new CommunicationObject(request.getServiceName(), request.getCallingMethodName(), responseParamArray);
+                        //send the shit
+                        connection.send(sendCommunicationObject);
                     }
 
                 }
 
+
                 if (!connection.isClosed()) {
+
+
                     connection.close();
                 }
-            }
-            catch (EOFException e) {
+
+                this.interrupt();
+
+
+
+            } catch (EOFException e) {
 
                 System.out.println("Unexpected end of stream...");
                 return;
-            }
-        catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

@@ -35,6 +35,7 @@ public class RegisteredServices {
     }
 
     public synchronized void registerService(String serviceName, InetSocketAddress serviceReference) {
+        System.out.println("registering service: " + serviceName);
         this.registeredServicesMap.put(serviceName, serviceReference);
 
     }

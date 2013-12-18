@@ -61,6 +61,7 @@ public class Connection {
 
 
     public void close() throws IOException {
+        System.out.println("Closing connection");
         this.socket.close();
 
 //        this.socket.getInputStream().close();
