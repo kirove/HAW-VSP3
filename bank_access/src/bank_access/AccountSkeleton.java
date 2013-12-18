@@ -19,7 +19,7 @@ public class AccountSkeleton extends Skeleton<AccountImplBase> {
 
 
         if(receivedCommObject.getCallingMethodName().equals("transfer")){
-            Double amount = (Double) receivedCommObject.getParametersArray()[1];
+            Double amount = (Double) receivedCommObject.getParametersArray()[0];
             try {
                 super.getServant().transfer(amount);
                 return VoidObject.getInstance();

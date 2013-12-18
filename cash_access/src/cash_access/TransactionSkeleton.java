@@ -20,8 +20,8 @@ public class TransactionSkeleton extends Skeleton<TransactionImplBase> {
 
         if(receivedCommObject.getCallingMethodName().equals("deposit")){
 
-            String accountID = (String ) receivedCommObject.getParametersArray()[1];
-            Double amount = (Double) receivedCommObject.getParametersArray()[2];
+            String accountID = (String ) receivedCommObject.getParametersArray()[0];
+            Double amount = (Double) receivedCommObject.getParametersArray()[1];
             try {
                 super.getServant().deposit(accountID, amount);
                 return VoidObject.getInstance();
@@ -31,8 +31,8 @@ public class TransactionSkeleton extends Skeleton<TransactionImplBase> {
         }
         else if(receivedCommObject.getCallingMethodName().equals("withdraw")){
 
-            String accountID = (String ) receivedCommObject.getParametersArray()[1];
-            Double amount = (Double) receivedCommObject.getParametersArray()[2];
+            String accountID = (String ) receivedCommObject.getParametersArray()[0];
+            Double amount = (Double) receivedCommObject.getParametersArray()[1];
 
             try {
                  super.getServant().withdraw(accountID, amount);
@@ -45,7 +45,7 @@ public class TransactionSkeleton extends Skeleton<TransactionImplBase> {
         }
         else if(receivedCommObject.getCallingMethodName().equals("getBalance")){
 
-            String accountID = (String ) receivedCommObject.getParametersArray()[1];
+            String accountID = (String ) receivedCommObject.getParametersArray()[0];
 
             try {
                 return  super.getServant().getBalance(accountID);

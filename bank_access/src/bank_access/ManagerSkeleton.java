@@ -20,8 +20,8 @@ public class ManagerSkeleton extends Skeleton<ManagerImplBase> {
         if (receivedCommObject.getCallingMethodName().equals("createAccount")) {
 
 
-            String owner = (String) receivedCommObject.getParametersArray()[1];
-            String branch = (String) receivedCommObject.getParametersArray()[2];
+            String owner = (String) receivedCommObject.getParametersArray()[0];
+            String branch = (String) receivedCommObject.getParametersArray()[1];
             System.out.println("ManagerSkeleton creating account: " + owner);
 
             return super.getServant().createAccount(owner, branch);
