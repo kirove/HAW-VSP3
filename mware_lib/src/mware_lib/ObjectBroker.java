@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 
 public class ObjectBroker {
 
-    private final Integer SERVER_APPLICATION_PORT = 45550;
+    private final Integer APPLICATION_PORT = 0;
 
 //	private final String serviceHost;
 
@@ -25,7 +25,7 @@ public class ObjectBroker {
 
         System.out.println("\nObjectBorker started !\nNameServer Ip: " + inetNameServerAddress.toString()+ "\nNameServer Port: " + nameServerPort);
 
-        this.nameService = NameServiceImpl.getInstance(inetNameServerAddress, nameServerPort, SERVER_APPLICATION_PORT);
+        this.nameService = NameServiceImpl.getInstance(inetNameServerAddress, nameServerPort, APPLICATION_PORT);
 
     }
 

@@ -20,9 +20,9 @@ public class DispatcherThread extends Thread {
 
     private static DispatcherThread instance = null;
 
-    private DispatcherThread(int serverApplicationPort) {
+    private DispatcherThread(int applicationPort) {
         try {
-            this.serverSocket = new ServerSocket(serverApplicationPort);
+            this.serverSocket = new ServerSocket(applicationPort);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -60,7 +60,11 @@ public class DispatcherThread extends Thread {
                 // get skeleton corresponding to the ServiceName
                 Skeleton skeleton = registeredSkeletons.getSkeleton(communicationObject.getServiceName());
 
-                skeleton.initiate(socket, communicationObject);
+
+                skeleton.initiate(connection, communicationObject);
+
+
+
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -70,6 +74,7 @@ public class DispatcherThread extends Thread {
 
 
     }
+
 
 }
 

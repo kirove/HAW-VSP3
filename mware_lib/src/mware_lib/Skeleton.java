@@ -7,7 +7,6 @@ package mware_lib; /**
  */
 
 
-
 import networking.CommunicationObject;
 import networking.Connection;
 
@@ -15,11 +14,11 @@ import java.io.IOException;
 import java.net.Socket;
 
 // AccountStub
-public abstract class Skeleton<E extends IServant> extends Thread {
+public abstract class Skeleton<E extends IServant> {
+
+
     private E servant;
-    private Connection connection;
-    //this serviceName is set in the initialize method, it is then used to proof that the client isn't trying to work on a different service with a different servicename,
-    private String serviceName;
+    private CommunicationObject receivedCommObject;
 
 
     protected abstract Object invokeMethod(CommunicationObject receivedCommObject);
@@ -28,8 +27,7 @@ public abstract class Skeleton<E extends IServant> extends Thread {
     public Skeleton(E servant) {
 
         this.servant = servant;
-        //must run as a DaemonThread so that the VM stops if there is only this thread running and no other non-daemon thread
-        this.setDaemon(true);
+
 
     }
 
@@ -37,72 +35,59 @@ public abstract class Skeleton<E extends IServant> extends Thread {
         return servant;
     }
 
-    public void initiate(Socket socket, CommunicationObject receivedCommObject) {
+    public void initiate(Connection connection, CommunicationObject receivedCommObject) {
 
-        try {
+        this.receivedCommObject = receivedCommObject;
+
+        SkeletonThread skeletonThread = new SkeletonThread(this, connection);
+
+        skeletonThread.start();
 
 
-            connection = new Connection(socket);
-
-            serviceName = receivedCommObject.getServiceName();
-
-            processCommunication(receivedCommObject);
-
-            // start the Skeleton Thread if it's not started yet
-            if (!this.isAlive()){
-
-                this.start();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("The connection can't be established...");
-
-        }
     }
 
-    private void processCommunication(CommunicationObject receivedCommObject) throws IOException {
-        Object[] receivedParametersArray = receivedCommObject.getParametersArray();
+    public CommunicationObject processCommunication() {
+
 
         Object returnValue = invokeMethod(receivedCommObject);
 
         Object[] responseArray = new Object[]{returnValue};
 
-        CommunicationObject responseCommunicationObject = new CommunicationObject(receivedCommObject.getServiceName(), receivedCommObject.getCallingMethodName(), responseArray);
+        return new CommunicationObject(receivedCommObject.getServiceName(), receivedCommObject.getCallingMethodName(), responseArray);
 
-        connection.send(responseCommunicationObject);
+
     }
 
 
-    @Override
-    public void run() {
+    private class SkeletonThread extends Thread {
 
-        while (!isInterrupted()) {
+        Skeleton skeleton;
+
+        private Connection connection;
+
+        public SkeletonThread(Skeleton skeleton, Connection connection) {
+
+            this.skeleton = skeleton;
+
+            this.connection = connection;
+
+            //must run as a DaemonThread so that the VM stops if there is only this thread running and no other non-daemon thread
+            this.setDaemon(true);
+
+        }
+
+
+        @Override
+        public void run() {
+            CommunicationObject responseCommunicationObject = skeleton.processCommunication();
             try {
-                CommunicationObject communicationObject = connection.receive();
-
-                // If this is true, client tried to use a different service (send the wrong serviceName) than that one for that the socket was created
-                if (!communicationObject.getServiceName().equals(serviceName)) {
-
-                    Object[] responseArray = new Object[]{new RuntimeException("Error: You are trying to use this reserved Socket for the wrong Service...")};
-
-                    CommunicationObject responseCommunicationObject = new CommunicationObject(communicationObject.getServiceName(), communicationObject.getCallingMethodName(), responseArray);
-
-                    connection.send(responseCommunicationObject);
-                } else {
-
-                    processCommunication(communicationObject);
-
-                }
-
-            } catch (Exception e) {
-
-                System.err.println("Exception in Skelleton.run(), exception is of Class: " + e.getClass() + " cause is: " + e.getCause());
-
+                connection.send(responseCommunicationObject);
+            } catch (IOException e) {
                 throw new RuntimeException(e);
-
-
             }
         }
+
+
     }
+
 }
