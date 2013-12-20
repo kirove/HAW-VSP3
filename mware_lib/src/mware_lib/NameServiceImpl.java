@@ -129,7 +129,7 @@ public class NameServiceImpl extends NameService {
 
 
     public void shutdown() {
-        this.dispatcherThread.interrupt();
+//        this.dispatcherThread.interrupt();
 
     }
 
