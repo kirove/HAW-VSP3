@@ -23,6 +23,7 @@ public class DispatcherThread extends Thread {
     private DispatcherThread(int applicationPort) {
         try {
             this.serverSocket = new ServerSocket(applicationPort);
+            System.out.println("Dispatcher says: 'My socket uses the port: "  + serverSocket.getLocalPort() + "'");
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -32,12 +33,12 @@ public class DispatcherThread extends Thread {
 
 
     /**
-     * @param serverApplicationPort
+     * @param applicationPort
      * @return
      */
-    public static DispatcherThread getInstance(int serverApplicationPort) {
+    public static DispatcherThread getInstance(int applicationPort) {
         if (instance == null) {
-            instance = new DispatcherThread(serverApplicationPort);
+            instance = new DispatcherThread(applicationPort);
             instance.start();
         }
 
@@ -45,11 +46,15 @@ public class DispatcherThread extends Thread {
 
     }
 
+    public int getPort() {
+        return serverSocket.getLocalPort();
+    }
 
     public void run() {
 
         try {
             while (!isInterrupted()) {
+                System.out.println("DispatcherThread waiting for request...");
                 Socket socket = this.serverSocket.accept();
 
 

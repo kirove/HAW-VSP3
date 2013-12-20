@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 
 public class ObjectBroker {
 
-    private final Integer APPLICATION_PORT = 0;
+    private Integer APPLICATION_PORT = 0;
 
 //	private final String serviceHost;
 
@@ -13,6 +13,10 @@ public class ObjectBroker {
 
 
     private ObjectBroker(String nameServerAddress, int nameServerPort) {
+
+
+
+
         InetAddress inetNameServerAddress = null;
         try {
             inetNameServerAddress = InetAddress.getByName(nameServerAddress);

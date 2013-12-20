@@ -1,8 +1,6 @@
 package bank_access;
 
 
-
-
 import networking.CommunicationObject;
 import networking.Connection;
 
@@ -13,10 +11,10 @@ import java.net.Socket;
 /**
  * Extends bank_access.AccountImplBase is a Stub responsible for the communication with the server side using serialized Objects
  */
-public class AccountStub extends AccountImplBase {
+public class AccountStub extends AccountImplBase implements mware_lib.Stub {
 
     private final String SERVICE_NAME;
-    private Connection connectionBoundToService;
+    private final InetSocketAddress inetSocketAddressServerApp;
 
 
     //private final InetSocketAddress inetSocketAddressServerApplication;
@@ -28,23 +26,14 @@ public class AccountStub extends AccountImplBase {
 
         SERVICE_NAME = gorCommObject.getServiceName();
 
-        InetSocketAddress inetSocketAddressServerApp = (InetSocketAddress) gorCommObject.getParametersArray()[0];
-
-
-        Socket socket = null;
-        try {
-            socket = new Socket(inetSocketAddressServerApp.getAddress(), inetSocketAddressServerApp.getPort());
-            connectionBoundToService = new Connection(socket);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.inetSocketAddressServerApp = (InetSocketAddress) gorCommObject.getParametersArray()[0];
 
 
     }
 
     @Override
     public void transfer(double amount) throws OverdraftException {
-
+        Connection connectionBoundToService = openConnection(inetSocketAddressServerApp);
 
         CommunicationObject sendCommObject = new CommunicationObject(SERVICE_NAME, "transfer", new Object[]{amount});
 
@@ -64,17 +53,19 @@ public class AccountStub extends AccountImplBase {
             throw new RuntimeException(e);
         }
 
-
+        closeConnection(connectionBoundToService);
     }
 
     @Override
     public double getBalance() {
+
+        Connection connectionBoundToService = openConnection(inetSocketAddressServerApp);
         CommunicationObject sendCommObject = new CommunicationObject(SERVICE_NAME, "getBalance", new Object[]{});
 
         try {
             connectionBoundToService.send(sendCommObject);
             CommunicationObject receiveCommunicationObject = connectionBoundToService.receive();
-
+            closeConnection(connectionBoundToService);
             return (Double) receiveCommunicationObject.getParametersArray()[0];
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -83,5 +74,29 @@ public class AccountStub extends AccountImplBase {
         }
 
 
+    }
+
+
+    @Override
+    public Connection openConnection(InetSocketAddress inetSocketAddressServerApp) {
+
+
+        try {
+            Socket socket = new Socket(inetSocketAddressServerApp.getAddress(), inetSocketAddressServerApp.getPort());
+
+            return new Connection(socket);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public void closeConnection(Connection connection) {
+        try {
+            connection.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

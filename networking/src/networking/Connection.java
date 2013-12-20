@@ -43,7 +43,7 @@ public class Connection {
 //        final Object receivedCrap= objectInputStream.readObject();
         System.out.println("in Connection.received vor cast auf CommunicationObject");
 //        final CommunicationObject communicationObject = (CommunicationObject) receivedCrap;
-        System.out.println("in Connection.received CommunicationObject: " + communicationObject);
+        System.out.println("in Connection.received CommunicationObject: " + communicationObject + " from " + this.socket.getInetAddress() + " " + this.socket.getPort());
 
 
 
@@ -52,16 +52,21 @@ public class Connection {
 
 
     public void send(final CommunicationObject communicationObject) throws IOException {
+//        try {
+//            this.wait(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         System.out.println("in Connection.send()");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectOutputStream.writeObject(communicationObject);
-        System.out.println("in Connection.send CommunicationObject: " + communicationObject);
+        System.out.println("in Connection.send CommunicationObject: " + communicationObject + " to "  + this.socket.getInetAddress() + " " + this.socket.getPort());
         objectOutputStream.flush();
     }
 
 
     public void close() throws IOException {
-        System.out.println("Closing connection");
+        System.out.println("Closing connection...");
         this.socket.close();
 
 //        this.socket.getInputStream().close();

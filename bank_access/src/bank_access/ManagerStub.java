@@ -1,9 +1,6 @@
 package bank_access;
 
 
-
-
-
 import networking.CommunicationObject;
 import networking.Connection;
 
@@ -14,10 +11,11 @@ import java.net.Socket;
 /**
  * Extends bank_access.ManagerImplBase is a Stub responsible for the communication with the server side using serialized Objects
  */
-public class ManagerStub extends ManagerImplBase {
+public class ManagerStub extends ManagerImplBase implements mware_lib.Stub {
 
     private final String SERVICE_NAME;
-    private Connection connectionToService;
+    private final InetSocketAddress inetSocketAddressServerApp;
+
 
 
     //private final InetSocketAddress inetSocketAddressServerApplication;
@@ -29,27 +27,26 @@ public class ManagerStub extends ManagerImplBase {
 
         SERVICE_NAME = gorCommObject.getServiceName();
 
-        InetSocketAddress inetSocketAddressServerApp = (InetSocketAddress) gorCommObject.getParametersArray()[0];
-
-
-        try {
-            Socket socket = new Socket(inetSocketAddressServerApp.getAddress(), inetSocketAddressServerApp.getPort());
-            connectionToService = new Connection(socket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.inetSocketAddressServerApp = (InetSocketAddress) gorCommObject.getParametersArray()[0];
 
 
     }
 
     @Override
     public String createAccount(String owner, String branch) {
+
+
+        Connection connectionToService = openConnection(inetSocketAddressServerApp);
+
         CommunicationObject sendCommObject = new CommunicationObject(SERVICE_NAME, "createAccount", new Object[]{owner, branch});
 
 
         try {
             connectionToService.send(sendCommObject);
+
             CommunicationObject receiveCommunicationObject = connectionToService.receive();
+
+            closeConnection(connectionToService);
 
             return (String) receiveCommunicationObject.getParametersArray()[0];
         } catch (IOException e) {
@@ -59,5 +56,29 @@ public class ManagerStub extends ManagerImplBase {
         }
 
 
+    }
+
+
+    @Override
+    public Connection openConnection(InetSocketAddress inetSocketAddressServerApp) {
+
+
+        try {
+            Socket socket = new Socket(inetSocketAddressServerApp.getAddress(), inetSocketAddressServerApp.getPort());
+
+            return new Connection(socket);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public void closeConnection(Connection connection) {
+        try {
+            connection.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

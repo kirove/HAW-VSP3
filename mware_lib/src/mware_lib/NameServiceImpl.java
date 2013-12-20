@@ -31,9 +31,9 @@ public class NameServiceImpl extends NameService {
     private final RegisteredSkeletons REGISTERED_SKELETONS = RegisteredSkeletons.getInstance();
 
     private final InetSocketAddress inetSocketAddressNameServer;
-    private final InetSocketAddress I_NET_SOCKET_ADDRESS_SERVER_APP;
+    private  InetSocketAddress I_NET_SOCKET_ADDRESS_SERVER_APP;
 
-    private NameServiceImpl(InetAddress inetAddressNameServer, int nameServerPort, int serverApplicationPort) {
+    private NameServiceImpl(InetAddress inetAddressNameServer, int nameServerPort, int applicationPort) {
         InetAddress inetAddressServerApplication = null;
         try {
             inetAddressServerApplication = InetAddress.getLocalHost();
@@ -41,16 +41,16 @@ public class NameServiceImpl extends NameService {
             throw new RuntimeException(e);
         }
         this.inetSocketAddressNameServer = new InetSocketAddress(inetAddressNameServer, nameServerPort);
-        this.I_NET_SOCKET_ADDRESS_SERVER_APP = new InetSocketAddress(inetAddressServerApplication, serverApplicationPort);
+        this.I_NET_SOCKET_ADDRESS_SERVER_APP = new InetSocketAddress(inetAddressServerApplication, applicationPort);
 
         System.out.println("\nLocal nameService(impl) started !\nNameServer Ip: " + inetSocketAddressNameServer.getAddress().toString() + "\nNameServer Port: " + inetSocketAddressNameServer.getPort());
     }
 
-    public static NameServiceImpl getInstance(InetAddress inetAddressNameServer, int nameServerPort, int serverApplicationPort) {
+    public static NameServiceImpl getInstance(InetAddress inetAddressNameServer, int nameServerPort, int applicationPort) {
 
 
         if (instance == null) {
-            instance = new NameServiceImpl(inetAddressNameServer, nameServerPort, serverApplicationPort);
+            instance = new NameServiceImpl(inetAddressNameServer, nameServerPort, applicationPort);
 
         }
         return instance;
@@ -65,6 +65,8 @@ public class NameServiceImpl extends NameService {
         if (this.dispatcherThread == null) {
             this.dispatcherThread = DispatcherThread.getInstance(I_NET_SOCKET_ADDRESS_SERVER_APP.getPort());
         }
+        //needs to be set again, for debugging reasons (when we start the applications with a 0 as PORT for randomized port generation)
+        I_NET_SOCKET_ADDRESS_SERVER_APP = new InetSocketAddress(I_NET_SOCKET_ADDRESS_SERVER_APP.getAddress(), this.dispatcherThread.getPort());
 
 
         IServant specifiedServant = (IServant) servant;

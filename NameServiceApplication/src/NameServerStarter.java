@@ -1,5 +1,6 @@
 
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import networking.CommunicationObject;
 import networking.Connection;
 
@@ -63,6 +64,7 @@ public class NameServerStarter {
             // TODO change break statement (True into something else hi stephan)
             // TODO Threadpool benutzen
             while (true) {
+                System.out.println("Waiting for request....");
                 final Socket socket = serverSocket.accept();
                 new NameServiceThread(socket, RegisteredServices.getInstance());
             }
