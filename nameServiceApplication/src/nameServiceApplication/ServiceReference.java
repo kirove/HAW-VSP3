@@ -1,3 +1,5 @@
+package nameServiceApplication;
+
 import java.io.Serializable;
 import java.net.InetAddress;
 

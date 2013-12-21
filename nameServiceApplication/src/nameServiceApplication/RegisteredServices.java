@@ -1,3 +1,6 @@
+package nameServiceApplication;
+
+
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;

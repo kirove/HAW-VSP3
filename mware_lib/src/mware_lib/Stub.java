@@ -1,6 +1,6 @@
 package mware_lib;
 
-import networking.Connection;
+import utilities.Connection;
 
 import java.net.InetSocketAddress;
 

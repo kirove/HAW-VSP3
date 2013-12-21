@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="networking" />
+    <orderEntry type="module" module-name="utilities" scope="PROVIDED" />
   </component>
 </module>
 

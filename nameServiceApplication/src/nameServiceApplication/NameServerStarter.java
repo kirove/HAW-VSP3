@@ -1,8 +1,7 @@
+package nameServiceApplication;
 
-
-import com.sun.org.apache.xpath.internal.SourceTree;
-import networking.CommunicationObject;
-import networking.Connection;
+import utilities.CommunicationObject;
+import utilities.Connection;
 
 import java.io.EOFException;
 import java.io.IOException;

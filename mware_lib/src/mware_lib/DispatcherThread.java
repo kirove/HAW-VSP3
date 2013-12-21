@@ -4,8 +4,8 @@ package mware_lib;
 
 
 
-import networking.CommunicationObject;
-import networking.Connection;
+import utilities.CommunicationObject;
+import utilities.Connection;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -3,7 +3,7 @@ package bank_access;
 
 import mware_lib.Skeleton;
 import mware_lib.VoidObject;
-import networking.CommunicationObject;
+import utilities.CommunicationObject;
 
 /**
  * Created by Cenan on 12.12.13.

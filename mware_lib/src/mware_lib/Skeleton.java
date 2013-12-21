@@ -7,8 +7,8 @@ package mware_lib; /**
  */
 
 
-import networking.CommunicationObject;
-import networking.Connection;
+import utilities.CommunicationObject;
+import utilities.Connection;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -87,24 +87,7 @@ public abstract class Skeleton<E extends IServant> {
                 throw new RuntimeException(e);
             }
 
-//            while (!this.connection.isClosed() && !isInterrupted()) {
 //
-//                try {
-//                    //set a reference to the newly received commObject for the skeleton, because it is going to work with it afterwards
-//                    skeleton.receivedCommObject = connection.receive();
-//
-//
-//                    responseCommunicationObject = skeleton.processCommunication();
-//
-//                    connection.send(responseCommunicationObject);
-//
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                } catch (ClassNotFoundException e) {
-//                    throw new RuntimeException(e);
-//                }
-//
-//            }
 
             try {
                 this.connection.close();

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/HAW-VSP3.iml" filepath="$PROJECT_DIR$/HAW-VSP3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bank_access/bank_access.iml" filepath="$PROJECT_DIR$/bank_access/bank_access.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cash_access/cash_access.iml" filepath="$PROJECT_DIR$/cash_access/cash_access.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mware_lib/mware_lib.iml" filepath="$PROJECT_DIR$/mware_lib/mware_lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nameServiceApplication/nameServiceApplication.iml" filepath="$PROJECT_DIR$/nameServiceApplication/nameServiceApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/utilities/utilities.iml" filepath="$PROJECT_DIR$/utilities/utilities.iml" />
+    </modules>
+  </component>
+</project>
+
