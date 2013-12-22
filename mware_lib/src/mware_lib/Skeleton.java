@@ -9,6 +9,7 @@ package mware_lib; /**
 
 import utilities.CommunicationObject;
 import utilities.Connection;
+import utilities.MWareThreadPool;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -17,8 +18,9 @@ import java.net.Socket;
 public abstract class Skeleton<E extends IServant> {
 
 
+    private MWareThreadPool mWareThreadPool = MWareThreadPool.getFixedThreadPoolInstance(100);
+
     private E servant;
-    private CommunicationObject receivedCommObject;
 
 
     protected abstract Object invokeMethod(CommunicationObject receivedCommObject);
@@ -37,16 +39,15 @@ public abstract class Skeleton<E extends IServant> {
 
     public void initiate(Connection connection, CommunicationObject receivedCommObject) {
 
-        this.receivedCommObject = receivedCommObject;
 
-        SkeletonThread skeletonThread = new SkeletonThread(this, connection);
+        SkeletonThread skeletonThread = new SkeletonThread(this, connection, receivedCommObject);
 
-        skeletonThread.start();
+        mWareThreadPool.execute(skeletonThread);
 
 
     }
 
-    public CommunicationObject processCommunication() {
+    public CommunicationObject processCommunication(CommunicationObject receivedCommObject) {
 
 
         Object returnValue = invokeMethod(receivedCommObject);
@@ -58,6 +59,13 @@ public abstract class Skeleton<E extends IServant> {
 
     }
 
+    public void shutDown() {
+
+        // shut down the thread pool
+        mWareThreadPool.shutdownAndAwaitTermination();
+
+    }
+
 
     private class SkeletonThread extends Thread {
 
@@ -65,11 +73,15 @@ public abstract class Skeleton<E extends IServant> {
 
         private Connection connection;
 
-        public SkeletonThread(Skeleton skeleton, Connection connection) {
+        private CommunicationObject receivedCommObject;
+
+        public SkeletonThread(Skeleton skeleton, Connection connection, CommunicationObject receivedCommObject) {
 
             this.skeleton = skeleton;
 
             this.connection = connection;
+
+            this.receivedCommObject = receivedCommObject;
 
             //must run as a DaemonThread so that the VM stops if there is only this thread running and no other non-daemon thread
             this.setDaemon(true);
@@ -79,7 +91,9 @@ public abstract class Skeleton<E extends IServant> {
 
         @Override
         public void run() {
-            CommunicationObject responseCommunicationObject = skeleton.processCommunication();
+
+            System.out.println("########New SkeletonThread executed as " + Thread.currentThread());
+            CommunicationObject responseCommunicationObject = skeleton.processCommunication(this.receivedCommObject);
             try {
                 connection.send(responseCommunicationObject);
 

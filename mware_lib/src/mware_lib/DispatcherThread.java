@@ -33,8 +33,8 @@ public class DispatcherThread extends Thread {
 
 
     /**
-     * @param applicationPort
-     * @return
+     * @param applicationPort is only set if this factory method is called the first time, else the application port isn't changed..
+     * @return DispatcherThread instance
      */
     public static DispatcherThread getInstance(int applicationPort) {
         if (instance == null) {

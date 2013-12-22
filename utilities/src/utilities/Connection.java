@@ -10,6 +10,10 @@ import java.net.Socket;
  * is responsiable for all the communications, send/ receive / close Connection including Streams In/Output
  */
 public class Connection {
+
+    private final boolean DEBUGGING = true;
+
+
     // private final InputStream inputStream;
     // private final ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream = null;
@@ -29,22 +33,32 @@ public class Connection {
 //            objectInputStream = new ObjectInputStream(inputStream);
 //        }
 
-        System.out.println("in Connection.receive()");
+        if (DEBUGGING) {
+            System.out.println("in Connection.receive()");
+        }
+
         if (this.objectInputStream == null) {
             this.objectInputStream = new ObjectInputStream(new BufferedInputStream(this.socket.getInputStream()));
-            System.out.println("in Connection.receive() objectInputStream was null");
+            if (DEBUGGING) {
+                System.out.println("in Connection.receive() objectInputStream was null");
+            }
         }
-        System.out.println("in Connection.receive() after socket.getInputStream()");
+        if (DEBUGGING) {
+            System.out.println("in Connection.receive() after socket.getInputStream()");
+        }
         // readObject deserializes  the incomming objectStream
 
 
         final CommunicationObject communicationObject = (CommunicationObject) objectInputStream.readObject();
 
 //        final Object receivedCrap= objectInputStream.readObject();
-        System.out.println("in Connection.received vor cast auf CommunicationObject");
+        if (DEBUGGING) {
+            System.out.println("in Connection.received vor cast auf CommunicationObject");
+        }
 //        final CommunicationObject communicationObject = (CommunicationObject) receivedCrap;
-        System.out.println("in Connection.received CommunicationObject: " + communicationObject + " from " + this.socket.getInetAddress() + " " + this.socket.getPort());
-
+        if (DEBUGGING) {
+            System.out.println("in Connection.received CommunicationObject: " + communicationObject + " from " + this.socket.getInetAddress() + " " + this.socket.getPort());
+        }
 
 
         return communicationObject;
@@ -57,16 +71,23 @@ public class Connection {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        System.out.println("in Connection.send()");
+
+        if (DEBUGGING) {
+            System.out.println("in Connection.send()");
+        }
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectOutputStream.writeObject(communicationObject);
-        System.out.println("in Connection.send CommunicationObject: " + communicationObject + " to "  + this.socket.getInetAddress() + " " + this.socket.getPort());
+        if (DEBUGGING) {
+            System.out.println("in Connection.send CommunicationObject: " + communicationObject + " to " + this.socket.getInetAddress() + " " + this.socket.getPort());
+        }
         objectOutputStream.flush();
     }
 
 
     public void close() throws IOException {
+        if (DEBUGGING) {
         System.out.println("Closing connection...");
+        }
         this.socket.close();
 
 //        this.socket.getInputStream().close();

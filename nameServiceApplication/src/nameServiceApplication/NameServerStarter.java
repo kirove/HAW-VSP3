@@ -2,6 +2,7 @@ package nameServiceApplication;
 
 import utilities.CommunicationObject;
 import utilities.Connection;
+import utilities.MWareThreadPool;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -13,16 +14,8 @@ import java.net.ServerSocket;
 
 public class NameServerStarter {
 
+    private MWareThreadPool mWareThreadPool = MWareThreadPool.getFixedThreadPoolInstance(100);
 
-    /**
-     * defines the name of the communication protocol
-     */
-    static public final String resolveMsgString = "resolve";
-
-    /**
-     * defines the name of the communication protocol
-     */
-    static public final String rebindMsgString = "rebind";
 
 
     public static void main(String[] args) {
@@ -48,13 +41,14 @@ public class NameServerStarter {
 
 
         } catch (IOException e) {
-            System.err.println("Couldnt Build up the NameServer!");
+            System.err.println("Couldn't Build up the NameServer!");
         }
     }
 
 
     public NameServerStarter(int port) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port, 50, InetAddress.getLocalHost());
+
 
         System.out.println("NameServer started !\nIp: " + serverSocket.getInetAddress().getHostAddress() + "\nPort: " + serverSocket.getLocalPort());
 
@@ -65,7 +59,9 @@ public class NameServerStarter {
             while (true) {
                 System.out.println("Waiting for request....");
                 final Socket socket = serverSocket.accept();
-                new NameServiceThread(socket, RegisteredServices.getInstance());
+                NameServiceThread nameServiceThread = new NameServiceThread(socket, RegisteredServices.getInstance());
+                mWareThreadPool.execute(nameServiceThread);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,6 +69,17 @@ public class NameServerStarter {
 
     }
 
+
+    public void shutDown() {
+
+        // shut down the thread pool
+        mWareThreadPool.shutdownAndAwaitTermination();
+
+    }
+
+
+    //////////////////////////////////////NameServiceThread\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    ////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private class NameServiceThread extends Thread {
         private Socket socket;
@@ -82,13 +89,13 @@ public class NameServerStarter {
         public NameServiceThread(Socket socket, RegisteredServices registeredServices) {
             this.socket = socket;
             this.registeredServices = registeredServices;
-            this.start();
+
         }
 
         @Override
         public void run() {
             try {
-                System.out.println("New worker thread for " + socket.getInetAddress());
+                System.out.println("########New worker thread (NameServiceThread) for " + socket.getInetAddress() + " executed new Thread as " + Thread.currentThread());
 
                 final Connection connection = new Connection(socket);
 
@@ -143,8 +150,8 @@ public class NameServerStarter {
                     connection.close();
                 }
 
-                this.interrupt();
 
+                this.interrupt();
 
 
             } catch (EOFException e) {
