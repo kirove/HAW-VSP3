@@ -1,6 +1,7 @@
 package cash_access;
 
 
+import mware_lib.IStub;
 import utilities.CommunicationObject;
 import utilities.Connection;
 
@@ -9,7 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 
-public class TransactionStub extends TransactionImplBase implements mware_lib.Stub {
+public class TransactionStub extends TransactionImplBase implements IStub {
 
     private final String SERVICE_NAME;
     //    private Connection connectionToService;

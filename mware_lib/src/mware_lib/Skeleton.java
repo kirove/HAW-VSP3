@@ -12,13 +12,12 @@ import utilities.Connection;
 import utilities.MWareThreadPool;
 
 import java.io.IOException;
-import java.net.Socket;
 
 // AccountStub
 public abstract class Skeleton<E extends IServant> {
 
 
-    private MWareThreadPool mWareThreadPool = MWareThreadPool.getFixedThreadPoolInstance(100);
+    private MWareThreadPool mWareThreadPool = MWareThreadPool.getCachedThreadPoolInstance();
 
     private E servant;
 

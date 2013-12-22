@@ -5,8 +5,11 @@ package mware_lib;
  */
 public interface IServant {
 
+
     Skeleton getSkeleton(IServant servant);
 
-    //only for debugging reasons
-    String getSkeletonName();
+    /**
+     * only for debugging reasons
+     */
+    String getSkeletonType();
 }

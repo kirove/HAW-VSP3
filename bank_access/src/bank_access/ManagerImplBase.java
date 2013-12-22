@@ -29,7 +29,7 @@ public abstract class ManagerImplBase implements IServant {
     }
 
     @Override
-    public String getSkeletonName() {
+    public String getSkeletonType() {
         return "ManagerImplBase";
     }
 }

@@ -30,7 +30,7 @@ public abstract class TransactionImplBase implements IServant {
     }
 
     @Override
-    public String getSkeletonName() {
+    public String getSkeletonType() {
         return "TransactionImplBase";
     }
 

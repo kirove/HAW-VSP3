@@ -8,7 +8,7 @@ import java.net.InetSocketAddress;
  * Created by me on 12/20/13.
  * Needs to be implemented by all stubs deriving from Application Interfaces (such as AccountImplBase, etc.)!
  */
-public interface Stub {
+public interface IStub {
 
     /**
      * A Connection needs to be opened in each overridden method of the application interfaces (such as AccountImplBase, etc.)!!!

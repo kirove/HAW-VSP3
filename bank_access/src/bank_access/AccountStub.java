@@ -1,6 +1,7 @@
 package bank_access;
 
 
+import mware_lib.IStub;
 import utilities.CommunicationObject;
 import utilities.Connection;
 
@@ -9,9 +10,9 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 /**
- * Extends bank_access.AccountImplBase is a Stub responsible for the communication with the server side using serialized Objects
+ * Extends bank_access.AccountImplBase is a IStub responsible for the communication with the server side using serialized Objects
  */
-public class AccountStub extends AccountImplBase implements mware_lib.Stub {
+public class AccountStub extends AccountImplBase implements IStub {
 
     private final String SERVICE_NAME;
     private final InetSocketAddress inetSocketAddressServerApp;

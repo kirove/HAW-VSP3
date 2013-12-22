@@ -14,7 +14,7 @@ import java.net.ServerSocket;
 
 public class NameServerStarter {
 
-    private MWareThreadPool mWareThreadPool = MWareThreadPool.getFixedThreadPoolInstance(100);
+    private MWareThreadPool mWareThreadPool = MWareThreadPool.getCachedThreadPoolInstance();
 
 
 
@@ -61,6 +61,7 @@ public class NameServerStarter {
                 final Socket socket = serverSocket.accept();
                 NameServiceThread nameServiceThread = new NameServiceThread(socket, RegisteredServices.getInstance());
                 mWareThreadPool.execute(nameServiceThread);
+
 
             }
         } catch (IOException e) {
